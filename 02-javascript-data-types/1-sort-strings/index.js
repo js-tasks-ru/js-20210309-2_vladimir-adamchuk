@@ -5,9 +5,9 @@
  * @returns {string[]}
  */
 export function sortStrings(arr, param) {
-  let ord = [];
+  const ord = [];
   arr.forEach(element => ord.push(element));
-  let order = (param=="desc")
+  const order = (param=="desc")
             ?ord.sort((a,b)=>b.localeCompare((a),undefined, {caseFirst: 'upper'}))
             :ord.sort((a,b)=>a.localeCompare((b),undefined, {caseFirst: 'upper'}))
   return order;
