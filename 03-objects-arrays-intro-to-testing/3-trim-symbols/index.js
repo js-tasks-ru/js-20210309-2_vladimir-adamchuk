@@ -5,5 +5,14 @@
  * @returns {string} - the new string without extra symbols according passed size
  */
 export function trimSymbols(string, size) {
-
+  const prepare = string.slice(0, size);
+  const tail = [...string.slice(size)];
+  return tail.reduce((spinString, char) => {
+    if (!spinString.endsWith(char.repeat(size))) {
+      spinString += char;
+    }
+    return spinString;
+  }, prepare)
+  if (size == 0) return '';
+  if (size == undefined) return string;
 }
