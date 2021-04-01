@@ -1,6 +1,5 @@
 export default class ColumnChart {
   subElements = {};
-  height = 50;
   chartHeight = 50;
   constructor({
                 data = [],
@@ -12,27 +11,26 @@ export default class ColumnChart {
     this.label = label;
     this.value = value;
     this.link = link;
-    this.composer();
+    this.render();
   }
-  composer() {
+  render() {
     const element = document.createElement('div');
-    element.innerHTML = this.dataPump;
+    element.innerHTML = this.template;
     this.element = element.firstElementChild;
-    console.log('dlina data', this.data.length);
     if (this.data.length){
-      this.element.classList.remove('column-char_loading');
+      this.element.classList.remove('column-chart_loading');
     }
     const elements  = element.querySelectorAll('[data-element]');
-      let TempElem = this.element;
-    this.subElements = (TempElem)=>{
-      const elements = element.querySelectorAll('[data-element]');
-      return [...elements].reduce((accum, subElement) =>{
-        accum[subElement.dataset.element] = subElement;
-        return accum;
-      }, {});
-    }
+    this.subElements = this.getSubElements(this.element);
   }
-  get dataPump(){
+  getSubElements(element) {
+    const elements = element.querySelectorAll('[data-element]');
+    return [...elements].reduce((accum, subElement) =>{
+      accum[subElement.dataset.element] = subElement;
+      return accum;
+    }, {});
+  }
+  get template(){
     return `<div class="column-chart column-chart_loading" style="...${this.chartHeight}">
             <div class="column-chart__title">
             Total ${this.label}
@@ -59,11 +57,9 @@ export default class ColumnChart {
       .join('');
   }
   get getLink(){
-    if (this.link) return `<a class="column-chart__link" href="${this.link}">View all</a>`
-    else return '';
+    return this.link ? `<a class="column-chart__link" href="${this.link}">View all</a>` : '';
   }
   update(data) {
-    console.log('upd', this.subElements.innerHTML);
     this.subElements.innerHTML = this.getColumnBody(data);
   }
   remove () {
